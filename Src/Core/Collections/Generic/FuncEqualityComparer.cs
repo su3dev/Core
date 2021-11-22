@@ -7,19 +7,27 @@ namespace su3dev.Collections.Generic
     public class FuncEqualityComparer<T> : EqualityComparer<T>
     {
         private readonly Func<T, T, bool> _comparer;
-        private readonly Func<T, int> _hash;
+        private readonly Func<T, int> _hasher;
+
+        private static readonly Func<T, int> DefaultHasher = obj =>
+        {
+            _ = obj ?? throw new ArgumentNullException(nameof(obj));
+            // ReSharper disable HeapView.PossibleBoxingAllocation
+            return obj.GetHashCode();
+            // ReSharper restore HeapView.PossibleBoxingAllocation
+        };
 
         public FuncEqualityComparer([DisallowNull] Func<T, T, bool> comparer)
-            : this(comparer, t => t.GetHashCode())
+            : this(comparer, DefaultHasher)
         { }
 
-        public FuncEqualityComparer([DisallowNull] Func<T, T, bool> comparer, [DisallowNull] Func<T, int> hash)
+        public FuncEqualityComparer([DisallowNull] Func<T, T, bool> comparer, [DisallowNull] Func<T, int> hasher)
         {
             _ = comparer ?? throw new ArgumentNullException(nameof(comparer));
-            _ = hash ?? throw new ArgumentNullException(nameof(hash));
+            _ = hasher ?? throw new ArgumentNullException(nameof(hasher));
 
             _comparer = comparer;
-            _hash = hash;
+            _hasher = hasher;
         }
 
         public override bool Equals(T a, T b)
@@ -29,7 +37,7 @@ namespace su3dev.Collections.Generic
 
         public override int GetHashCode(T obj)
         {
-            return _hash(obj);
+            return _hasher(obj);
         }
     }
 }

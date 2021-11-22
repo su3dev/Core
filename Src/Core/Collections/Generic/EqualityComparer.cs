@@ -8,16 +8,16 @@ namespace su3dev.Collections.Generic
     {
         public static IEqualityComparer<T> Create<T>(
                     [DisallowNull] Func<T, T, bool> comparer,
-                    Func<T, int> hash = null)
+                    Func<T, int> hasher = null)
         {
             _ = comparer ?? throw new ArgumentNullException(nameof(comparer));
 
-            if (hash is null)
+            if (hasher is null)
             {
                 return new FuncEqualityComparer<T>(comparer);
             }
 
-            return new FuncEqualityComparer<T>(comparer, hash);
+            return new FuncEqualityComparer<T>(comparer, hasher);
         }
     }
 }

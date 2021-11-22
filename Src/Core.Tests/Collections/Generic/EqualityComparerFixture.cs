@@ -17,7 +17,7 @@ namespace Core.Tests.Collections.Generic
 
 		[Fact]
 	    public void Equals_uses_specified_comparer()
-	    {
+        {
 			var comparerMock = new Mock<Func<SomeType, SomeType, bool>>();
 
 			var sut = EqualityComparer.Create(comparerMock.Object);
@@ -25,26 +25,26 @@ namespace Core.Tests.Collections.Generic
 			var instance1 = new SomeType();
 			var instance2 = new SomeType();
 
-			sut.Equals(instance1, instance2);
+			_ = sut.Equals(instance1, instance2);
 
 			comparerMock.Verify(m => m.Invoke(instance1, instance2), Times.Once);
 		}
 
 		[Fact]
-		public void GetHashCode_uses_specified_hash_lambda()
+		public void GetHashCode_uses_specified_hasher()
 		{
-			var hashMock = new Mock<Func<SomeType, int>>();
+			var hasherMock = new Mock<Func<SomeType, int>>();
 
-			var sut = EqualityComparer.Create((_, _) => true, hashMock.Object);
+			var sut = EqualityComparer.Create((_, _) => true, hasherMock.Object);
 
 			var instance = new SomeType();
-			sut.GetHashCode(instance);
+			_ = sut.GetHashCode(instance);
 
-			hashMock.Verify(m => m.Invoke(instance), Times.Once);
+			hasherMock.Verify(m => m.Invoke(instance), Times.Once);
 		}
 
 	    [Fact]
-	    public void GetHashCode_uses_default_implementation_when_not_specified()
+	    public void GetHashCode_uses_default_hasher_when_not_specified()
 	    {
 	        var sut = EqualityComparer.Create<Guid>((_, _) => true);
 
