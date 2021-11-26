@@ -19,14 +19,20 @@ namespace Core.Tests.Collections.Generic
 		[Fact]
 		public void Comparer_passed_in_ctor_cannot_be_null()
 		{
-			Assert.Throws<ArgumentNullException>(() => new FuncEqualityComparer<SomeType>(null));
-		}
+            // NOTE: Disabling 8625 such that no warnings are raised due to passing null in ctor
+#pragma warning disable 8625
+            Assert.Throws<ArgumentNullException>(() => new FuncEqualityComparer<SomeType>(null));
+#pragma warning restore 8625
+        }
 
 		[Fact]
 		public void Hasher_passed_in_ctor_cannot_be_null()
 		{
-			Assert.Throws<ArgumentNullException>(() => new FuncEqualityComparer<SomeType>((_, _) => true, null));
-		}
+            // NOTE: Disabling 8625 such that no warnings are raised due to passing null in ctor
+#pragma warning disable 8625
+            Assert.Throws<ArgumentNullException>(() => new FuncEqualityComparer<SomeType>((_, _) => true, null));
+#pragma warning restore 8625
+        }
 
 		[Fact]
 	    public void Equals_invokes_comparer_specified_in_single_parameter_ctor()
@@ -100,10 +106,11 @@ namespace Core.Tests.Collections.Generic
         {
             var sut = new FuncEqualityComparer<string>(EqualityComparer<string>.Default.Equals);
 
+            // NOTE: Disabling 8625 such that no warnings are raised due to passing null in ctor
             // ReSharper disable HeapView.BoxingAllocation
-            // ReSharper disable AssignNullToNotNullAttribute
+#pragma warning disable 8625
             Assert.Throws<ArgumentNullException>(() => sut.GetHashCode(null));
-            // ReSharper restore AssignNullToNotNullAttribute
+#pragma warning restore 8625
             // ReSharper restore HeapView.BoxingAllocation
         }
     }

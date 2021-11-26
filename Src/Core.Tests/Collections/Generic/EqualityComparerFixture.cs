@@ -12,8 +12,13 @@ namespace Core.Tests.Collections.Generic
 		[Fact]
 		public void Comparer_cannot_be_null()
 		{
-			Assert.Throws<ArgumentNullException>(() => EqualityComparer.Create((Func<SomeType, SomeType, bool>)null));
-		}
+            // NOTE: Disabling 8600 and 8625 so that no warnings are raised due to passing null in ctor
+#pragma warning disable 8625
+#pragma warning disable 8600
+            Assert.Throws<ArgumentNullException>(() => EqualityComparer.Create((Func<SomeType, SomeType, bool>)null));
+#pragma warning restore 8600
+#pragma warning restore 8625
+        }
 
 		[Fact]
 	    public void Equals_uses_specified_comparer()

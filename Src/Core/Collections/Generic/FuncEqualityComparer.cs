@@ -17,11 +17,11 @@ namespace su3dev.Collections.Generic
             // ReSharper restore HeapView.PossibleBoxingAllocation
         };
 
-        public FuncEqualityComparer([DisallowNull] Func<T, T, bool> comparer)
+        public FuncEqualityComparer(Func<T, T, bool> comparer)
             : this(comparer, DefaultHasher)
         { }
 
-        public FuncEqualityComparer([DisallowNull] Func<T, T, bool> comparer, [DisallowNull] Func<T, int> hasher)
+        public FuncEqualityComparer(Func<T, T, bool> comparer, Func<T, int> hasher)
         {
             _ = comparer ?? throw new ArgumentNullException(nameof(comparer));
             _ = hasher ?? throw new ArgumentNullException(nameof(hasher));

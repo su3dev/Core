@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace su3dev.Collections.Generic
 {
     public class EqualityComparer
     {
         public static IEqualityComparer<T> Create<T>(
-                    [DisallowNull] Func<T, T, bool> comparer,
-                    Func<T, int> hasher = null)
+                    Func<T, T, bool> comparer,
+                    Func<T, int>? hasher = null)
         {
             _ = comparer ?? throw new ArgumentNullException(nameof(comparer));
 
